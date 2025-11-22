@@ -35,14 +35,55 @@ function CarregarAcoes() {
 }
 CarregarAcoes()
 
+let carteira=[]
 function ComprarAcao(codigodaacao){
+    
+    let indice = carteira.findIndex(item => item.codigo === codigodaacao);
+        if (indice === -1) {
+            carteira.push({
+                codigo: codigodaacao,
+                quantidade: 1,
+                preco: acoes[acoes.findIndex(item => item.codigo === codigodaacao)]["preco"]
+            })
+            indice = carteira.length - 1 
+            CriarContainerAcaoComprada(indice)
 
-    let comprouacao = document.createElement("p")
-    comprouacao.textContent = "Voce comprou " + codigodaacao
-    portfoliodeacoes.append(comprouacao)
+        } else {
+            carteira[indice].quantidade++;
+        AtualizarQuantidadeAcao(indice)}
+    console.log(carteira)
+}
+
+function CriarContainerAcaoComprada(indice){
+    let acaodisponivel = document.createElement("div")
+        acaodisponivel.setAttribute('id', 'acao' + carteira[indice].codigo ) 
+        acaodisponivel.setAttribute('class', 'acaodisponivel')
+        portfoliodeacoes.append(acaodisponivel)
+
+        let acaocodigo = document.createElement("p")
+        acaocodigo.textContent = carteira[indice].codigo
+        acaocodigo.setAttribute('id', carteira[indice].codigo) 
+        acaocodigo.setAttribute('class', 'acaocodigo')     
+        acaocodigo.setAttribute('value', carteira[indice].codigo)    
+
+        let acaopreco = document.createElement("p")
+        acaopreco.textContent = carteira[indice].preco
+        acaopreco.setAttribute('class', 'acaopreco') 
+        acaopreco.setAttribute('value', carteira[indice].preco)
+
+        let quantidadeacao = document.createElement('p')
+        quantidadeacao.setAttribute('id', 'quantidade' + carteira[indice].codigo )
+        quantidadeacao.textContent = carteira[indice].quantidade
+
+        
+        acaodisponivel.append(acaocodigo)
+        acaodisponivel.append(acaopreco)
+        acaodisponivel.append(quantidadeacao)
 
 }
 
+function AtualizarQuantidadeAcao(indice){
+    let quantidadeacao = document.getElementById('quantidade'+ carteira[indice].codigo)
+    quantidadeacao.textContent = carteira[indice].quantidade
 
-
-
+}
