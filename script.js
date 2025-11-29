@@ -52,7 +52,7 @@ function ComprarAcao(codigodaacao){
             indice = carteira.length - 1 
             CriarContainerAcaoComprada(indice)
             AtualizarSaldo(carteira[indice].preco)
-            console.log(carteira[indice].preco)
+            
 
         } else {
             carteira[indice].quantidade++;
@@ -60,7 +60,7 @@ function ComprarAcao(codigodaacao){
         AtualizarSaldo(carteira[indice].preco)
 
         AtualizarQuantidadeAcao(indice)}
-    console.log(carteira)
+    
     
      
 }
@@ -86,10 +86,16 @@ function CriarContainerAcaoComprada(indice){
         quantidadeacao.setAttribute('id', 'quantidade' + carteira[indice].codigo )
         quantidadeacao.textContent = carteira[indice].quantidade
 
+        let botaovenderacao = document.createElement('button')
+        botaovenderacao.setAttribute('type', 'button' )
+        botaovenderacao.textContent = 'vender acao'
+        botaovenderacao.addEventListener("click", function (){ VenderAcao()})      
+
         
         acaodisponivel.append(acaocodigo)
-        acaodisponivel.append(acaopreco)
         acaodisponivel.append(quantidadeacao)
+        acaodisponivel.append(botaovenderacao)
+
 
 }
 
@@ -97,12 +103,6 @@ function AtualizarQuantidadeAcao(indice){
     let quantidadeacao = document.getElementById('quantidade'+ carteira[indice].codigo)
     quantidadeacao.textContent = carteira[indice].quantidade
 
-}
-
-function AtualizarSaldo(valoracao){
-    
-    saldodisponivel.value = saldodisponivel.value - valoracao
-    saldodisponivel.textContent = saldodisponivel.value.toFixed(2)
 }
 
 function MudarPrecos(){
@@ -114,7 +114,18 @@ function MudarPrecos(){
         let precoatual = Number(acoes[i]["preco"])
         let novopreco = Math.random() * Math.floor( precoatual * 1.1 - precoatual * 0.9 )  +  precoatual * 0.9 + 0.2
         elementosPreco[i].textContent = novopreco.toFixed(2);
-
+        acoes[i]["preco"] = novopreco.toFixed(2)
+        
     }
+}
+
+function AtualizarSaldo(valoracao){
+    
+    saldodisponivel.value = saldodisponivel.value - valoracao
+    saldodisponivel.textContent = saldodisponivel.value.toFixed(2)
+}
+
+function VenderAcao(){
+    console.log("acao vendida")
 }
 setInterval(() => MudarPrecos(), 5000)
