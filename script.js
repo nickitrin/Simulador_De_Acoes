@@ -2,7 +2,11 @@ import {acoes} from './acoes.js';
 
 let acoesdisponiveisparacompra = document.getElementById("acoesdisponiveisparacompra")
 let portfoliodeacoes= document.getElementById("portfoliodeacoes")
+let saldodisponivel = document.getElementById("saldodisponivel")
 
+saldodisponivel.value = 10000
+
+ 
 function CarregarAcoes() {
 
     for(let i=0; i<acoes.length; i++){
@@ -47,11 +51,18 @@ function ComprarAcao(codigodaacao){
             })
             indice = carteira.length - 1 
             CriarContainerAcaoComprada(indice)
+            AtualizarSaldo(carteira[indice].preco)
+            console.log(carteira[indice].preco)
 
         } else {
             carteira[indice].quantidade++;
+            
+        AtualizarSaldo(carteira[indice].preco)
+
         AtualizarQuantidadeAcao(indice)}
     console.log(carteira)
+    
+     
 }
 
 function CriarContainerAcaoComprada(indice){
@@ -88,6 +99,11 @@ function AtualizarQuantidadeAcao(indice){
 
 }
 
+function AtualizarSaldo(valoracao){
+    
+    saldodisponivel.value = saldodisponivel.value - valoracao
+    saldodisponivel.textContent = saldodisponivel.value.toFixed(2)
+}
 
 function MudarPrecos(){
 
@@ -96,11 +112,9 @@ function MudarPrecos(){
     for (let i = 0; i < acoes.length; i++) {
 
         let precoatual = Number(acoes[i]["preco"])
-        let novopreco = Math.random() * Math.floor( precoatual * 1.3 - precoatual * 0.7 + 1)  +  precoatual * 0.7 + 1.3
+        let novopreco = Math.random() * Math.floor( precoatual * 1.1 - precoatual * 0.9 )  +  precoatual * 0.9 + 0.2
         elementosPreco[i].textContent = novopreco.toFixed(2);
 
     }
-    
-    
 }
-setInterval(() => MudarPrecos(), 10000)
+setInterval(() => MudarPrecos(), 5000)
