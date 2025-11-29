@@ -4,7 +4,7 @@ let acoesdisponiveisparacompra = document.getElementById("acoesdisponiveisparaco
 let portfoliodeacoes= document.getElementById("portfoliodeacoes")
 let saldodisponivel = document.getElementById("saldodisponivel")
 
-saldodisponivel.value = 30000
+saldodisponivel.value = 10000
 
  
 function CarregarAcoes() {
@@ -43,23 +43,27 @@ let carteira=[]
 function ComprarAcao(codigodaacao){
     
     let indice = carteira.findIndex(item => item.codigo === codigodaacao);
-        if (indice === -1) {
-            carteira.push({
-                codigo: codigodaacao,
-                quantidade: 1,
-                preco: acoes[acoes.findIndex(item => item.codigo === codigodaacao)]["preco"]
-            })
-            indice = carteira.length - 1 
-            CriarContainerAcaoComprada(indice)
+        if (acoes[acoes.findIndex(item => item.codigo === codigodaacao)]["preco"]<= saldodisponivel.value)
+            if (indice === -1) {
+                carteira.push({
+                    codigo: codigodaacao,
+                    quantidade: 1,
+                    preco: acoes[acoes.findIndex(item => item.codigo === codigodaacao)]["preco"]
+                })
+                indice = carteira.length - 1 
+                CriarContainerAcaoComprada(indice)
+                AtualizarSaldo(carteira[indice].preco)
+                
+
+            } else {
+                carteira[indice].quantidade++;
+                
             AtualizarSaldo(carteira[indice].preco)
-            
 
-        } else {
-            carteira[indice].quantidade++;
-            
-        AtualizarSaldo(carteira[indice].preco)
-
-        AtualizarQuantidadeAcao(indice)}
+            AtualizarQuantidadeAcao(indice)}
+        else {
+            alert("Saldo insuficiente!")
+        }
     
     
      
