@@ -28,7 +28,7 @@ function CarregarAcoes() {
 
         let botaocompraracao = document.createElement('button')
         botaocompraracao.setAttribute('type', 'button' )
-        botaocompraracao.textContent = 'comprar acao'
+        botaocompraracao.textContent = 'Comprar Ação'
         botaocompraracao.addEventListener("click", function (){ ComprarAcao(acaocodigo.id)})      
 
         
@@ -91,7 +91,7 @@ function CriarContainerAcaoComprada(indice){
 
         let botaovenderacao = document.createElement('button')
         botaovenderacao.setAttribute('type', 'button' )
-        botaovenderacao.textContent = 'vender acao'
+        botaovenderacao.textContent = 'Vender Ação'
         botaovenderacao.addEventListener("click", function (){ VenderAcao(carteira[indice])})      
 
         
