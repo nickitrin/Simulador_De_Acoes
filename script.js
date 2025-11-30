@@ -22,7 +22,7 @@ function CarregarAcoes() {
         acaocodigo.setAttribute('value', acoes[i]["codigo"])    
 
         let acaopreco = document.createElement("p")
-        acaopreco.textContent = acoes[i]["preco"]
+        acaopreco.textContent = "R$ " + acoes[i]["preco"]
         acaopreco.setAttribute('class', 'acaopreco') 
         acaopreco.setAttribute('value', acoes[i]["preco"])
 
@@ -132,7 +132,7 @@ function MudarPrecos(){
 
         let precoatual = Number(acoes[i]["preco"])
         let novopreco = Math.random() * Math.floor( precoatual * 1.1 - precoatual * 0.9 )  +  precoatual * 0.9 + 0.2
-        elementosPreco[i].textContent = novopreco.toFixed(2);
+        elementosPreco[i].textContent = "R$ " + novopreco.toFixed(2);
         acoes[i]["preco"] = novopreco.toFixed(2)
         
     }
@@ -141,12 +141,12 @@ function MudarPrecos(){
 function AtualizarSaldo(valoracao, compraouvenda){
     if (compraouvenda === "comprar"){
         saldodisponivel.value = saldodisponivel.value - valoracao
-        saldodisponivel.textContent = saldodisponivel.value.toFixed(2) 
+        saldodisponivel.textContent = "R$ " + saldodisponivel.value.toFixed(2) 
     }
     
     if (compraouvenda === "vender"){
         saldodisponivel.value = saldodisponivel.value + Number(valoracao)
-        saldodisponivel.textContent = saldodisponivel.value.toFixed(2)
+        saldodisponivel.textContent = "R$ " + saldodisponivel.value.toFixed(2)
     }
 
 }
