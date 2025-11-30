@@ -52,15 +52,14 @@ function ComprarAcao(codigodaacao){
                 })
                 indice = carteira.length - 1 
                 CriarContainerAcaoComprada(indice)
-                AtualizarSaldo(carteira[indice].preco)
+                AtualizarSaldo(carteira[indice].preco, "comprar")
                 
 
             } else {
                 carteira[indice].quantidade++;
                 
-            AtualizarSaldo(carteira[indice].preco)
-
-            AtualizarQuantidadeAcao(indice)}
+            AtualizarSaldo(carteira[indice].preco, "comprar")
+            AtualizarQuantidadeAcao(indice, "comprar")}
         else {
             alert("Saldo insuficiente!")
         }
@@ -93,7 +92,7 @@ function CriarContainerAcaoComprada(indice){
         let botaovenderacao = document.createElement('button')
         botaovenderacao.setAttribute('type', 'button' )
         botaovenderacao.textContent = 'vender acao'
-        botaovenderacao.addEventListener("click", function (){ VenderAcao()})      
+        botaovenderacao.addEventListener("click", function (){ VenderAcao(carteira[indice])})      
 
         
         acaodisponivel.append(acaocodigo)
@@ -103,14 +102,30 @@ function CriarContainerAcaoComprada(indice){
 
 }
 
-function AtualizarQuantidadeAcao(indice){
-    let quantidadeacao = document.getElementById('quantidade'+ carteira[indice].codigo)
-    quantidadeacao.textContent = carteira[indice].quantidade
-
+function AtualizarQuantidadeAcao(indice, compraouvenda){
+    if (compraouvenda === "comprar"){
+        let quantidadeacao = document.getElementById('quantidade'+ carteira[indice].codigo)
+        quantidadeacao.textContent = carteira[indice].quantidade
+    }
+    if (compraouvenda === "vender"){
+        let quantidadeacao = document.getElementById('quantidade'+ carteira[indice].codigo)
+        let quantidadeacaoatualizada = Number(quantidadeacao.textContent) 
+        quantidadeacaoatualizada = quantidadeacaoatualizada - 1
+        if (quantidadeacaoatualizada > 0){
+            quantidadeacao.textContent = quantidadeacaoatualizada
+        }
+        else {
+            DeletarContainerAcaoComprada(indice)
+            carteira.splice(indice, 1)
+        }
+        
+    }
+}
+function DeletarContainerAcaoComprada(indice){
+    document.getElementById('acao' + carteira[indice].codigo).remove()
 }
 
 function MudarPrecos(){
-
     const elementosPreco = document.getElementsByClassName("acaopreco");
 
     for (let i = 0; i < acoes.length; i++) {
@@ -123,13 +138,25 @@ function MudarPrecos(){
     }
 }
 
-function AtualizarSaldo(valoracao){
+function AtualizarSaldo(valoracao, compraouvenda){
+    if (compraouvenda === "comprar"){
+        saldodisponivel.value = saldodisponivel.value - valoracao
+        saldodisponivel.textContent = saldodisponivel.value.toFixed(2) 
+    }
     
-    saldodisponivel.value = saldodisponivel.value - valoracao
-    saldodisponivel.textContent = saldodisponivel.value.toFixed(2)
+    if (compraouvenda === "vender"){
+        saldodisponivel.value = saldodisponivel.value + Number(valoracao)
+        saldodisponivel.textContent = saldodisponivel.value.toFixed(2)
+    }
+
 }
 
-function VenderAcao(){
-    console.log("acao vendida")
+function VenderAcao(acaovendida){
+    let codigodaacao = acaovendida.codigo
+    let acaovendidapreco = acoes[acoes.findIndex(item => item.codigo === codigodaacao)]["preco"]
+    AtualizarSaldo(acaovendidapreco, "vender")
+
+    let acaovendidaindex = carteira.findIndex(item => item.codigo === codigodaacao)
+    AtualizarQuantidadeAcao(acaovendidaindex, "vender")
 }
 setInterval(() => MudarPrecos(), 5000)
